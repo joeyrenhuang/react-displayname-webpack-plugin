@@ -1,11 +1,21 @@
 {
   "name": "react-displayname-webpack-plugin",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "dist/index.common.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c"
   },
-  "author": "",
-  "license": "ISC"
+  "author": {
+    "id": "01414993",
+    "name": "huangren"
+  },
+  "license": "ISC",
+  "files": [
+    "dist"
+  ],
+  "description": "",
+  "devDependencies": {
+    "rollup": "^2.57.0",
+    "rollup-plugin-uglify": "^6.0.4"
+  }
 }
