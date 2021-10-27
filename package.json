@@ -6,14 +6,18 @@
     "build": "rollup -c"
   },
   "author": {
-    "id": "01414993",
-    "name": "huangren"
+    "name": "huangren",
+    "email": "joey.ren.huang@gmail.com"
   },
   "license": "ISC",
   "files": [
     "dist"
   ],
-  "description": "",
+  "keywords": [
+    "react",
+    "displayName"
+  ],
+  "description": "react hlep displayName",
   "devDependencies": {
     "rollup": "^2.57.0",
     "rollup-plugin-uglify": "^6.0.4"
