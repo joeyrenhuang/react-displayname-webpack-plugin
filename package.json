@@ -1,6 +1,6 @@
 {
   "name": "react-displayname-webpack-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.common.js",
   "scripts": {
     "build": "rollup -c"
