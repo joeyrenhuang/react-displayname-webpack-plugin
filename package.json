@@ -13,6 +13,10 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joeyrenhuang/react-displayname-webpack-plugin.git"
+  },
   "keywords": [
     "react",
     "displayName"

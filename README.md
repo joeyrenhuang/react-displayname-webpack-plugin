@@ -1,7 +1,7 @@
 Use path to as displayName easily navigate to the file you are looking for.
 As default, it would only set displayName for 'export default unnamed function' unless pass arg to it.
 
-![Kiku](1.png)
+![Kiku](https://github.com/joeyrenhuang/react-displayname-webpack-plugin/raw/main/1.png)
 
 1. Install
 ```
