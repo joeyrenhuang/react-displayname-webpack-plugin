@@ -1,4 +1,9 @@
-import { uglify }from 'rollup-plugin-uglify'
+import commonjs from '@rollup/plugin-commonjs';
+import {
+   nodeResolve
+} from '@rollup/plugin-node-resolve';
+import globals from 'rollup-plugin-node-globals';
+import builtins from 'rollup-plugin-node-builtins';
 export default {
   input: './index.js',
   output: {
@@ -7,13 +12,13 @@ export default {
     banner: '/*Created by 01414993 */',
     sourcemap: 'inline',
   },
+  external: ['fs'], // tells Rollup 'I know what I'm doing here'
   plugins: [
-    uglify({
-      compress: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-      }
-    }),
+      nodeResolve({
+         preferBuiltins: true
+      }), // or `true`
+      commonjs(),
+      globals(),
+      builtins()
   ]
 }
