@@ -24,7 +24,7 @@ const displayName = `
         let type = fiber._debugOwner.type || ''
         let dn = type.displayName || type.name
         if(dn && dn.startsWith(ifs)) {
-          console.log('11trying open file ' + dn)
+          console.log('trying open file ' + dn)
           fetch('http://localhost:7666/__open-in-editor?file=' + dn, {
             mode: 'no-cors',
           })
