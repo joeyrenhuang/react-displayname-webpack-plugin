@@ -1,4 +1,10 @@
 'use strict';
+const path = require('path')
+const { exec } = require('child_process')
+let cmd = 'code'
+exec('echo $EDITOR ', function(err, io, ioerr){
+  if(io && io.trim()) cmd = io.trim()
+})
 const displayName = `
  
   let __ReactDisplayNameWebpackPlugin__ = typeof __WEBPACK_DEFAULT_EXPORT__ === 'function'
@@ -9,66 +15,84 @@ const displayName = `
     ? _default :
     typeof exports !== 'undefined' && exports.default && typeof exports.default === 'function' && exports.default)
 
-  __ReactDisplayNameWebpackPlugin__ && (!__ReactDisplayNameWebpackPlugin__.name || {{force}}) && (__ReactDisplayNameWebpackPlugin__.displayName = '{{id}}')
+  __ReactDisplayNameWebpackPlugin__ && (__ReactDisplayNameWebpackPlugin__.displayName = '{{id}}')
 
   if (!window.__react_displayname_webpack_plugin_event) {
-    let fn = ({target}) => {
-      if (target.tagName === 'HTML') return
-      let key = Object.keys(target).find(x => x.match(/__reactFiber/))
-      if (key) {
-        let dn = target[key]._debugOwner.type.displayName
-        if(dn.startsWith('src')) {
-          console.log('trying open file {{path}}' + dn)
-          return fetch('http://localhost:7666/__open-in-editor?file=' + dn, {
+    let validFiber = (fiber, ifs = 'src') => {
+      if (!fiber) return false
+      if (fiber._debugOwner) {
+        let type = fiber._debugOwner.type || ''
+        let dn = type.displayName || type.name
+        if(dn && dn.startsWith(ifs)) {
+          console.log('11trying open file ' + dn)
+          fetch('http://localhost:7666/__open-in-editor?file=' + dn, {
             mode: 'no-cors',
           })
+          return true
         }
-      }
-      fn({target: target.parentNode})
+      } 
+      return validFiber(fiber.return, ifs)
+    }
+    let fn = ({target}, ifs) => {
+      if (target.tagName === 'HTML') return
+      let key = Object.keys(target).find(x => x.match(/(__reactFiber|__reactInternalInstance)/))
+      if (key && validFiber(target[key], ifs)) return true 
+      console.log('couldn"t find file to open when travrse up the tree')
     }
     window.__react_displayname_webpack_plugin_event = fn
-    window.VUE_DEVTOOLS_CONFIG = {
-      openInEditorHost: 'http://localhost:7666',
-    }
-
+    
+    /* click 3 time open src, 4 times open node_modules, 5times enter other mode: click 1 time to src, then reset*/
     let n = 0
     let t = 0
     let st = () => {
       return setTimeout(() => {
         n = 0
-      }, 500) 
+      }, 600) 
     }
-    window.addEventListener('click', (evt) => {
+    let handler = (evt) => {
       clearTimeout(t)
       t = st()
       n++
-      if ( n === 3) fn(evt)
-    })
+      if (n === 5) {
+        clearTimeout(t)
+        n = 2
+      }
+      if ( n === 4) {
+        setTimeout(() => {
+          n === 4 && fn(evt, 'node_modules')
+        }, 300)
+      }
+      if ( n === 3 ) {
+        setTimeout(() => {
+          n === 3 && fn(evt)
+        }, 300)
+      }
+    }
+    window.addEventListener('mousedown', handler)
   }
 `
 function ReactDisplayNameWebpackPlugin(options) {
-  this.options = options 
-  this.force = !!options
-  this.s = typeof options === 'string' ? options : ''
-  this.n = typeof options === 'number' ? options : ''
 }
 ReactDisplayNameWebpackPlugin.prototype.apply = function(c) {
-  this.path = c.context
   if (c.options.mode === 'development') {
     this.working(c)
-    require('./devServer.js')
+    require('express')().get('/__open-in-editor', function(req, res){
+      exec(`${cmd} ${path.resolve(req.query.file)}`)
+      res.sendStatus(200)
+    }).listen(7666)
   }
 }
 ReactDisplayNameWebpackPlugin.prototype.working = function (c) {
   c.hooks.compilation.tap('ReactDisplayNameWebpackPlugin', (compilation, compilationParams) => {
     compilation.hooks.succeedModule.tap('ReactDisplayNameWebpackPlugin', (m) => {
-      const {type, rawRequest, _source, userRequest} = m
-      if (type === 'javascript/auto' && userRequest && userRequest.match(/jsx?$/) && userRequest.indexOf('node_modules') === -1 
-        && (_source?._valueAsString || _source?._value)) {
-        let id = this.s && userRequest.indexOf(this.s) !== -1 && userRequest.substr(userRequest.indexOf(this.s))
-        !id && this.n && (id = userRequest.split('/').slice(this.n * -1).join('/'))
-        !id && (id = rawRequest || userRequest)
-        let appendstr = displayName.replace(/{{id}}/mg, id).replace(/{{force}}/mg, this.force).replace(/{{path}}/mg, this.path)
+      const {type, _source, userRequest} = m
+      if (type === 'javascript/auto' && userRequest && userRequest.match(/jsx?$/) && (_source?._valueAsString || _source?._value)) {
+        let id = userRequest.indexOf('node_modules') !== -1 ? 
+          userRequest.substr(userRequest.indexOf('node_modules'))
+          : userRequest.indexOf('src') !== -1 ? 
+          userRequest.substr(userRequest.indexOf('src'))
+          : userRequest
+        let appendstr = displayName.replace(/{{id}}/mg, id)
         _source._valueAsString && (_source._valueAsString += appendstr)
         _source._value && (_source._value += appendstr)
       }

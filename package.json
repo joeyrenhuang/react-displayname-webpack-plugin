@@ -1,5 +1,5 @@
 {
-  "name": "react-ttttt",
+  "name": "react-displayname-webpack-plugin",
   "version": "1.0.6",
   "main": "dist/index.common.js",
   "scripts": {
@@ -19,22 +19,18 @@
   },
   "keywords": [
     "react",
-    "displayName"
+    "displayname",
+    "webpack",
+    "plugin"
   ],
-  "description": "react hlep displayName",
+  "description": "webpack react displayname",
   "devDependencies": {
+    "rollup": "^2.60.1",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.0.6",
-    "rollup": "^2.60.1",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-builtins": "^2.1.2",
-    "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^5.2.0"
   },
   "dependencies": {
-    "launch-editor-middleware": "^2.2.1",
-    "webpack": "^5.64.2",
-    "webpack-dev-server": "^4.5.0"
+    "express": "^4.17.1"
   }
 }
