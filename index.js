@@ -1,50 +1,10 @@
 'use strict';
+const autoopen  = require('./autoopen') 
+const editdn = require('./editdn')
+const reg = /(?:export\s+(?:default)?\s*(?:function|let|const)?\s*)(\w+)/
 const displayName = `
- 
-  let __ReactDisplayNameWebpackPlugin__ = typeof __WEBPACK_DEFAULT_EXPORT__ === 'function'
-    ? __WEBPACK_DEFAULT_EXPORT__ :
-    typeof __webpack_exports__ !== 'undefined' && __webpack_exports__.default && typeof __webpack_exports__.default === 'function' && __webpack_exports__.default 
-  
-  !__ReactDisplayNameWebpackPlugin__  && (__ReactDisplayNameWebpackPlugin__ = typeof _default === 'function'
-    ? _default :
-    typeof exports !== 'undefined' && exports.default && typeof exports.default === 'function' && exports.default)
-
-  __ReactDisplayNameWebpackPlugin__ && (!__ReactDisplayNameWebpackPlugin__.name || {{force}}) && (__ReactDisplayNameWebpackPlugin__.displayName = '{{id}}')
-
-  if (!window.__react_displayname_webpack_plugin_event) {
-    let fn = ({target}) => {
-      if (target.tagName === 'HTML') return
-      let key = Object.keys(target).find(x => x.match(/__reactFiber/))
-      if (key) {
-        let dn = target[key]._debugOwner.type.displayName
-        if(dn.startsWith('src')) {
-          console.log('trying open file {{path}}' + dn)
-          return fetch('http://localhost:7666/__open-in-editor?file=' + dn, {
-            mode: 'no-cors',
-          })
-        }
-      }
-      fn({target: target.parentNode})
-    }
-    window.__react_displayname_webpack_plugin_event = fn
-    window.VUE_DEVTOOLS_CONFIG = {
-      openInEditorHost: 'http://localhost:7666',
-    }
-
-    let n = 0
-    let t = 0
-    let st = () => {
-      return setTimeout(() => {
-        n = 0
-      }, 500) 
-    }
-    window.addEventListener('click', (evt) => {
-      clearTimeout(t)
-      t = st()
-      n++
-      if ( n === 3) fn(evt)
-    })
-  }
+  eval(${editdn.toString()}())
+  eval(${autoopen.toString()}())
 `
 function ReactDisplayNameWebpackPlugin(options) {
   this.options = options 

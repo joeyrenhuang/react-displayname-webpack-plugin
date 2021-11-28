@@ -1,7 +1,7 @@
 {
-  "name": "react-ttttt",
+  "name": "react-displayname-webpack-plugin",
   "version": "1.0.6",
-  "main": "dist/index.common.js",
+  "main": "index.js",
   "scripts": {
     "build": "rollup -c"
   },
