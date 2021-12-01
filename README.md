@@ -1,6 +1,6 @@
-- Use path to as displayName easily navigate to the file you are looking for. It would only set displayName for 'export default'.
+- It would set the react app tree like a project tree displayed by file-path
 - In react devtools Component panel, add filter hide which name matchs ^(?!src), results your source file only as nest tree like below.
-- In addition, it track your click events and trying to open the source file localy.
+- In addition, it track your click events and trying to open the source file localy and move to the position where Component defined.
 - Click on dom by times as:
   - 3, open the most near Component from src
   - 4, open the most near Component from node_modules

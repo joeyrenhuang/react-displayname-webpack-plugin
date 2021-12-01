@@ -1,9 +1,8 @@
-{
-  "name": "react-displayname-webpack-plugin",
+{ "name": "react-displayname-webpack-plugin",
   "version": "1.0.8",
-  "main": "index.js",
+  "main": "dist/index.common.js",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c && cp loader.js autoopen.js editdn.js dist"
   },
   "author": {
     "name": "huangren",
@@ -20,10 +19,11 @@
   "keywords": [
     "react",
     "displayname",
+    "autoopen",
     "webpack",
     "plugin"
   ],
-  "description": "webpack react displayname",
+  "description": "webpack react displayname, open file in editor",
   "devDependencies": {
     "rollup": "^2.60.1",
     "@rollup/plugin-commonjs": "^21.0.1",
