@@ -10,7 +10,7 @@ module.exports = function autoopen() {
           if(dn && dn.startsWith(ifs)) {
             dn = dn.split(':')[0]
             console.log('trying open file ' + dn)
-            fetch('http://localhost:7666/__open-in-editor?file=' + dn + ':' + (pos[n] || pos[type.name] || ''), {
+            fetch('http://localhost:{{port}}/__open-in-editor?file=' + dn + ':' + (pos[n] || pos[type.name] || ''), {
               mode: 'no-cors',
             })
             return true

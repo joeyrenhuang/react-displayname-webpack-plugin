@@ -18,7 +18,7 @@ module.exports = function apply(resource) {
     userRequest.substr(userRequest.indexOf('src'))
     : userRequest
   let pos = id.startsWith('node_modules') ? {} : getAllPosition(resource)
-  let appendstr = (editdnstr + (!autoopencount ? autoopenstr : '')).replace(/{{id}}/mg, id).replace('{{pos}}', JSON.stringify(pos))
+  let appendstr = (editdnstr + (!autoopencount ? autoopenstr : '')).replace(/{{id}}/mg, id).replace('{{pos}}', JSON.stringify(pos)).replace('{{port}}', this.query.port)
   autoopencount++
   return resource + appendstr
 }

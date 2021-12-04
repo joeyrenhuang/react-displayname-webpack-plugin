@@ -9,6 +9,7 @@ exec('printf $MYEDITOR,$EDITOR', function(err, io, ioerr){
   }
 })
 function ReactDisplayNameWebpackPlugin(options) {
+  this.port = 7666 + Math.floor(Math.random() * 333)
 }
 ReactDisplayNameWebpackPlugin.prototype.apply = function(c) {
   if (c.options.mode === 'development') {
@@ -25,7 +26,7 @@ ReactDisplayNameWebpackPlugin.prototype.apply = function(c) {
         spawn(cmd, [path.resolve(filename), `+call cursor(${r},${c})`], {stdio: 'inherit'})
       }
       res.sendStatus(200)
-    }).listen(7666)
+    }).listen(this.port)
   }
 }
 ReactDisplayNameWebpackPlugin.prototype.working = function (c) {
@@ -37,7 +38,7 @@ ReactDisplayNameWebpackPlugin.prototype.working = function (c) {
         m.loaders.push({
           loader: require.resolve('./loader'),
           options: {
-            path: userRequest
+            port: this.port
           }
         })
       }
