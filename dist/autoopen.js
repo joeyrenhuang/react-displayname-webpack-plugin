@@ -1,8 +1,21 @@
+
 module.exports = function autoopen() {
+  const clsname = '__react_displayname_webpack_plugin_current_dom'
+  function addClassName(fiber, nomore){
+      if (fiber && fiber.stateNode && fiber.stateNode.classList) {
+        removeClassName()
+        fiber.stateNode.classList.add(clsname)
+      } else if(fiber && !nomore) addClassName(fiber.return, true)
+  }
+  function removeClassName(){
+    let q = document.querySelector('.' + clsname)
+    q && q.classList.remove(clsname)
+  }
   try {
     if (!window.__react_displayname_webpack_plugin_event) {
       let validFiber = (fiber, ifs = 'src', n = '') => {
-        if (!fiber) return false
+        addClassName(fiber)
+        if (!fiber) return removeClassName() && false
         if (fiber._debugOwner) {
           let type = fiber._debugOwner.type || ''
           let dn = type.displayName || type.name
@@ -13,6 +26,7 @@ module.exports = function autoopen() {
             fetch('http://localhost:{{port}}/__open-in-editor?file=' + dn + ':' + (pos[n] || pos[type.name] || ''), {
               mode: 'no-cors',
             })
+            setTimeout(removeClassName, 1000)
             return true
           }
           if (!n && dn && !dn.match(/node_modules|\//)) n = dn || ''
@@ -61,6 +75,15 @@ module.exports = function autoopen() {
         }
       }
       window.addEventListener('mousedown', handler)
+      setTimeout(() => {
+        const css = `
+        .${clsname} {
+          outline: 1px dashed deeppink;
+          outline-offset: -5px;
+        }
+        `
+        document.head.appendChild(document.createElement('style')).innerHTML = css
+      }, 0)
     }
   } catch(e) {}
 
