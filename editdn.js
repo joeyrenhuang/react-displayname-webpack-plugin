@@ -17,7 +17,7 @@ module.exports = function editdn() {
       if (typeof x === 'function') {
         x.displayName = `{{id}}:${x.name || 'default'}`
         x.pos = pos
-        if (x.displayName === '__WEBPACK_DEFAULT_EXPORT__ ') x.displayName = 'default'
+        if (x.displayName === '__WEBPACK_DEFAULT_EXPORT__') x.displayName = 'default'
       }
     })
   }
