@@ -1,6 +1,6 @@
 {
   "name": "react-displayname-webpack-plugin",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "main": "dist/index.common.js",
   "scripts": {
     "build": "rollup -c && cp loader.js autoopen.js editdn.js dist"
