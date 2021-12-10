@@ -773,7 +773,7 @@ function DeprecationError (namespace, message, stack) {
   return error
 }
 
-var bytes$6 = {exports: {}};
+var bytes$8 = {exports: {}};
 
 /*!
  * bytes
@@ -787,20 +787,20 @@ var bytes$6 = {exports: {}};
  * @public
  */
 
-bytes$6.exports = bytes$5;
-bytes$6.exports.format = format$3;
-bytes$6.exports.parse = parse$c;
+bytes$8.exports = bytes$7;
+bytes$8.exports.format = format$4;
+bytes$8.exports.parse = parse$d;
 
 /**
  * Module variables.
  * @private
  */
 
-var formatThousandsRegExp = /\B(?=(\d{3})+(?!\d))/g;
+var formatThousandsRegExp$1 = /\B(?=(\d{3})+(?!\d))/g;
 
-var formatDecimalsRegExp = /(?:\.0*|(\.[^0]+)0+)$/;
+var formatDecimalsRegExp$1 = /(?:\.0*|(\.[^0]+)0+)$/;
 
-var map = {
+var map$1 = {
   b:  1,
   kb: 1 << 10,
   mb: 1 << 20,
@@ -809,7 +809,7 @@ var map = {
   pb: Math.pow(1024, 5),
 };
 
-var parseRegExp = /^((-|\+)?(\d+(?:\.\d+)?)) *(kb|mb|gb|tb|pb)$/i;
+var parseRegExp$1 = /^((-|\+)?(\d+(?:\.\d+)?)) *(kb|mb|gb|tb|pb)$/i;
 
 /**
  * Convert the given value in bytes into a string or parse to string to an integer in bytes.
@@ -826,13 +826,13 @@ var parseRegExp = /^((-|\+)?(\d+(?:\.\d+)?)) *(kb|mb|gb|tb|pb)$/i;
  * @returns {string|number|null}
  */
 
-function bytes$5(value, options) {
+function bytes$7(value, options) {
   if (typeof value === 'string') {
-    return parse$c(value);
+    return parse$d(value);
   }
 
   if (typeof value === 'number') {
-    return format$3(value, options);
+    return format$4(value, options);
   }
 
   return null;
@@ -856,7 +856,7 @@ function bytes$5(value, options) {
  * @public
  */
 
-function format$3(value, options) {
+function format$4(value, options) {
   if (!Number.isFinite(value)) {
     return null;
   }
@@ -868,31 +868,31 @@ function format$3(value, options) {
   var fixedDecimals = Boolean(options && options.fixedDecimals);
   var unit = (options && options.unit) || '';
 
-  if (!unit || !map[unit.toLowerCase()]) {
-    if (mag >= map.pb) {
+  if (!unit || !map$1[unit.toLowerCase()]) {
+    if (mag >= map$1.pb) {
       unit = 'PB';
-    } else if (mag >= map.tb) {
+    } else if (mag >= map$1.tb) {
       unit = 'TB';
-    } else if (mag >= map.gb) {
+    } else if (mag >= map$1.gb) {
       unit = 'GB';
-    } else if (mag >= map.mb) {
+    } else if (mag >= map$1.mb) {
       unit = 'MB';
-    } else if (mag >= map.kb) {
+    } else if (mag >= map$1.kb) {
       unit = 'KB';
     } else {
       unit = 'B';
     }
   }
 
-  var val = value / map[unit.toLowerCase()];
+  var val = value / map$1[unit.toLowerCase()];
   var str = val.toFixed(decimalPlaces);
 
   if (!fixedDecimals) {
-    str = str.replace(formatDecimalsRegExp, '$1');
+    str = str.replace(formatDecimalsRegExp$1, '$1');
   }
 
   if (thousandsSeparator) {
-    str = str.replace(formatThousandsRegExp, thousandsSeparator);
+    str = str.replace(formatThousandsRegExp$1, thousandsSeparator);
   }
 
   return str + unitSeparator + unit;
@@ -909,7 +909,7 @@ function format$3(value, options) {
  * @public
  */
 
-function parse$c(val) {
+function parse$d(val) {
   if (typeof val === 'number' && !isNaN(val)) {
     return val;
   }
@@ -919,7 +919,7 @@ function parse$c(val) {
   }
 
   // Test if the string passed is valid
-  var results = parseRegExp.exec(val);
+  var results = parseRegExp$1.exec(val);
   var floatValue;
   var unit = 'b';
 
@@ -933,7 +933,7 @@ function parse$c(val) {
     unit = results[4].toLowerCase();
   }
 
-  return Math.floor(map[unit] * floatValue);
+  return Math.floor(map$1[unit] * floatValue);
 }
 
 var contentType$3 = {};
@@ -989,8 +989,8 @@ var TYPE_REGEXP = /^[!#$%&'*+.^_`|~0-9A-Za-z-]+\/[!#$%&'*+.^_`|~0-9A-Za-z-]+$/;
  * @public
  */
 
-contentType$3.format = format$2;
-contentType$3.parse = parse$b;
+contentType$3.format = format$3;
+contentType$3.parse = parse$c;
 
 /**
  * Format object to media type.
@@ -1000,7 +1000,7 @@ contentType$3.parse = parse$b;
  * @public
  */
 
-function format$2 (obj) {
+function format$3 (obj) {
   if (!obj || typeof obj !== 'object') {
     throw new TypeError('argument obj is required')
   }
@@ -1041,7 +1041,7 @@ function format$2 (obj) {
  * @public
  */
 
-function parse$b (string) {
+function parse$c (string) {
   if (!string) {
     throw new TypeError('argument string is required')
   }
@@ -1726,7 +1726,7 @@ var ms$2 = function(val, options) {
   options = options || {};
   var type = typeof val;
   if (type === 'string' && val.length > 0) {
-    return parse$a(val);
+    return parse$b(val);
   } else if (type === 'number' && isNaN(val) === false) {
     return options.long ? fmtLong$1(val) : fmtShort$1(val);
   }
@@ -1744,7 +1744,7 @@ var ms$2 = function(val, options) {
  * @api private
  */
 
-function parse$a(str) {
+function parse$b(str) {
   str = String(str);
   if (str.length > 100) {
     return;
@@ -2505,6 +2505,169 @@ if (typeof process !== 'undefined' && process.type === 'renderer') {
   src.exports = browser.exports;
 } else {
   src.exports = node.exports;
+}
+
+var bytes$6 = {exports: {}};
+
+/*!
+ * bytes
+ * Copyright(c) 2012-2014 TJ Holowaychuk
+ * Copyright(c) 2015 Jed Watson
+ * MIT Licensed
+ */
+
+/**
+ * Module exports.
+ * @public
+ */
+
+bytes$6.exports = bytes$5;
+bytes$6.exports.format = format$2;
+bytes$6.exports.parse = parse$a;
+
+/**
+ * Module variables.
+ * @private
+ */
+
+var formatThousandsRegExp = /\B(?=(\d{3})+(?!\d))/g;
+
+var formatDecimalsRegExp = /(?:\.0*|(\.[^0]+)0+)$/;
+
+var map = {
+  b:  1,
+  kb: 1 << 10,
+  mb: 1 << 20,
+  gb: 1 << 30,
+  tb: Math.pow(1024, 4),
+  pb: Math.pow(1024, 5),
+};
+
+var parseRegExp = /^((-|\+)?(\d+(?:\.\d+)?)) *(kb|mb|gb|tb|pb)$/i;
+
+/**
+ * Convert the given value in bytes into a string or parse to string to an integer in bytes.
+ *
+ * @param {string|number} value
+ * @param {{
+ *  case: [string],
+ *  decimalPlaces: [number]
+ *  fixedDecimals: [boolean]
+ *  thousandsSeparator: [string]
+ *  unitSeparator: [string]
+ *  }} [options] bytes options.
+ *
+ * @returns {string|number|null}
+ */
+
+function bytes$5(value, options) {
+  if (typeof value === 'string') {
+    return parse$a(value);
+  }
+
+  if (typeof value === 'number') {
+    return format$2(value, options);
+  }
+
+  return null;
+}
+
+/**
+ * Format the given value in bytes into a string.
+ *
+ * If the value is negative, it is kept as such. If it is a float,
+ * it is rounded.
+ *
+ * @param {number} value
+ * @param {object} [options]
+ * @param {number} [options.decimalPlaces=2]
+ * @param {number} [options.fixedDecimals=false]
+ * @param {string} [options.thousandsSeparator=]
+ * @param {string} [options.unit=]
+ * @param {string} [options.unitSeparator=]
+ *
+ * @returns {string|null}
+ * @public
+ */
+
+function format$2(value, options) {
+  if (!Number.isFinite(value)) {
+    return null;
+  }
+
+  var mag = Math.abs(value);
+  var thousandsSeparator = (options && options.thousandsSeparator) || '';
+  var unitSeparator = (options && options.unitSeparator) || '';
+  var decimalPlaces = (options && options.decimalPlaces !== undefined) ? options.decimalPlaces : 2;
+  var fixedDecimals = Boolean(options && options.fixedDecimals);
+  var unit = (options && options.unit) || '';
+
+  if (!unit || !map[unit.toLowerCase()]) {
+    if (mag >= map.pb) {
+      unit = 'PB';
+    } else if (mag >= map.tb) {
+      unit = 'TB';
+    } else if (mag >= map.gb) {
+      unit = 'GB';
+    } else if (mag >= map.mb) {
+      unit = 'MB';
+    } else if (mag >= map.kb) {
+      unit = 'KB';
+    } else {
+      unit = 'B';
+    }
+  }
+
+  var val = value / map[unit.toLowerCase()];
+  var str = val.toFixed(decimalPlaces);
+
+  if (!fixedDecimals) {
+    str = str.replace(formatDecimalsRegExp, '$1');
+  }
+
+  if (thousandsSeparator) {
+    str = str.replace(formatThousandsRegExp, thousandsSeparator);
+  }
+
+  return str + unitSeparator + unit;
+}
+
+/**
+ * Parse the string value into an integer in bytes.
+ *
+ * If no unit is given, it is assumed the value is in bytes.
+ *
+ * @param {number|string} val
+ *
+ * @returns {number|null}
+ * @public
+ */
+
+function parse$a(val) {
+  if (typeof val === 'number' && !isNaN(val)) {
+    return val;
+  }
+
+  if (typeof val !== 'string') {
+    return null;
+  }
+
+  // Test if the string passed is valid
+  var results = parseRegExp.exec(val);
+  var floatValue;
+  var unit = 'b';
+
+  if (!results) {
+    // Nothing could be extracted from the given string
+    floatValue = parseInt(val, 10);
+    unit = 'b';
+  } else {
+    // Retrieve the value and the unit
+    floatValue = parseFloat(results[1]);
+    unit = results[4].toLowerCase();
+  }
+
+  return Math.floor(map[unit] * floatValue);
 }
 
 var lib$1 = {exports: {}};
@@ -25724,7 +25887,7 @@ function tryNormalizeType (value) {
  * @private
  */
 
-var bytes$3 = bytes$6.exports;
+var bytes$3 = bytes$8.exports;
 var contentType$2 = contentType$3;
 var createError$2 = httpErrors.exports;
 var debug$9 = src.exports('body-parser:json');
@@ -25951,7 +26114,7 @@ function typeChecker$3 (type) {
  * Module dependencies.
  */
 
-var bytes$2 = bytes$6.exports;
+var bytes$2 = bytes$8.exports;
 var debug$8 = src.exports('body-parser:raw');
 var read$2 = read_1;
 var typeis$3 = typeIs.exports;
@@ -26051,7 +26214,7 @@ function typeChecker$2 (type) {
  * Module dependencies.
  */
 
-var bytes$1 = bytes$6.exports;
+var bytes$1 = bytes$8.exports;
 var contentType$1 = contentType$3;
 var debug$7 = src.exports('body-parser:text');
 var read$1 = read_1;
@@ -26938,7 +27101,7 @@ var lib = {
  * @private
  */
 
-var bytes = bytes$6.exports;
+var bytes = bytes$8.exports;
 var contentType = contentType$3;
 var createError$1 = httpErrors.exports;
 var debug$6 = src.exports('body-parser:urlencoded');
@@ -29671,6 +29834,76 @@ function tryStat(path) {
 
 var utils = {};
 
+var safeBuffer$1 = {exports: {}};
+
+/* eslint-disable node/no-deprecated-api */
+
+(function (module, exports) {
+var buffer = require$$0__default$2["default"];
+var Buffer = buffer.Buffer;
+
+// alternative to using Object.keys for old browsers
+function copyProps (src, dst) {
+  for (var key in src) {
+    dst[key] = src[key];
+  }
+}
+if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
+  module.exports = buffer;
+} else {
+  // Copy properties from require('buffer')
+  copyProps(buffer, exports);
+  exports.Buffer = SafeBuffer;
+}
+
+function SafeBuffer (arg, encodingOrOffset, length) {
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+// Copy static methods from Buffer
+copyProps(Buffer, SafeBuffer);
+
+SafeBuffer.from = function (arg, encodingOrOffset, length) {
+  if (typeof arg === 'number') {
+    throw new TypeError('Argument must not be a number')
+  }
+  return Buffer(arg, encodingOrOffset, length)
+};
+
+SafeBuffer.alloc = function (size, fill, encoding) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  var buf = Buffer(size);
+  if (fill !== undefined) {
+    if (typeof encoding === 'string') {
+      buf.fill(fill, encoding);
+    } else {
+      buf.fill(fill);
+    }
+  } else {
+    buf.fill(0);
+  }
+  return buf
+};
+
+SafeBuffer.allocUnsafe = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return Buffer(size)
+};
+
+SafeBuffer.allocUnsafeSlow = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return buffer.SlowBuffer(size)
+};
+}(safeBuffer$1, safeBuffer$1.exports));
+
+var contentDisposition$2 = {exports: {}};
+
 var safeBuffer = {exports: {}};
 
 /* eslint-disable node/no-deprecated-api */
@@ -29738,8 +29971,6 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 };
 }(safeBuffer, safeBuffer.exports));
-
-var contentDisposition$2 = {exports: {}};
 
 /*!
  * content-disposition
@@ -35961,7 +36192,7 @@ function trustSingle (subnet) {
  * @api private
  */
 
-var Buffer = safeBuffer.exports.Buffer;
+var Buffer = safeBuffer$1.exports.Buffer;
 var contentDisposition = contentDisposition$2.exports;
 var contentType = contentType$3;
 var deprecate = depd_1('express');
@@ -39032,7 +39263,7 @@ function vary$1 (res, field) {
  * @private
  */
 
-var Buffer$1 = safeBuffer.exports.Buffer;
+var Buffer$1 = safeBuffer$1.exports.Buffer;
 var contentDisposition = contentDisposition$2.exports;
 var deprecate = depd_1('express');
 var encodeUrl$1 = encodeurl;
@@ -40510,6 +40741,7 @@ exec('printf $MYEDITOR,$EDITOR', function(err, io, ioerr){
   }
 });
 function ReactDisplayNameWebpackPlugin(options) {
+  this.port = 7666 + Math.floor(Math.random() * 333);
 }
 ReactDisplayNameWebpackPlugin.prototype.apply = function(c) {
   if (c.options.mode === 'development') {
@@ -40526,7 +40758,7 @@ ReactDisplayNameWebpackPlugin.prototype.apply = function(c) {
         spawn(cmd, [path.resolve(filename), `+call cursor(${r},${c})`], {stdio: 'inherit'});
       }
       res.sendStatus(200);
-    }).listen(7666);
+    }).listen(this.port);
   }
 };
 ReactDisplayNameWebpackPlugin.prototype.working = function (c) {
@@ -40538,7 +40770,7 @@ ReactDisplayNameWebpackPlugin.prototype.working = function (c) {
         m.loaders.push({
           loader: require.resolve('./loader'),
           options: {
-            path: userRequest
+            port: this.port
           }
         });
       }
