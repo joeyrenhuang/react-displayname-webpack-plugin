@@ -10,13 +10,12 @@ module.exports = function editdn() {
         eval(`${x}.pos = pos`)
       } catch (e){}
     })
-    Object.values && Object.values(__ReactDisplayNameWebpackPlugin__).forEach(x => {
+    Object.entries && Object.entries(__ReactDisplayNameWebpackPlugin__).forEach(([k, x]) => {
       if (!x || x.name === 'noop') {
         return
       }
       if (typeof x === 'function') {
-        if (x.name === '__WEBPACK_DEFAULT_EXPORT__') x.name = 'default'
-        x.displayName = `{{id}}:${x.name || 'default'}`
+        x.displayName = `{{id}}:${k}`
         x.pos = pos
       }
     })
