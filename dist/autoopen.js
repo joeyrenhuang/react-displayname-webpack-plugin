@@ -1,4 +1,3 @@
-
 module.exports = function autoopen() {
   const clsname = '__react_displayname_webpack_plugin_current_dom'
   function addClassName(fiber, nomore){
@@ -50,7 +49,7 @@ module.exports = function autoopen() {
         return setTimeout(() => {
           n = 0
           target = null
-        }, 1000) 
+        }, 600) 
       }
       let handler = (evt) => {
         clearTimeout(t)
@@ -66,12 +65,12 @@ module.exports = function autoopen() {
         if ( n === 4) {
           setTimeout(() => {
             n === 4 && fn(evt, 'node_modules')
-          }, 500)
+          }, 300)
         }
         if ( n === 3 ) {
           setTimeout(() => {
             n === 3 && fn(evt)
-          }, 500)
+          }, 300)
         }
       }
       window.addEventListener('mousedown', handler)

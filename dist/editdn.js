@@ -11,13 +11,13 @@ module.exports = function editdn() {
       } catch (e){}
     })
     Object.values && Object.values(__ReactDisplayNameWebpackPlugin__).forEach(x => {
-      if (x.name === 'noop') {
+      if (!x || x.name === 'noop') {
         return
       }
       if (typeof x === 'function') {
+        if (x.name === '__WEBPACK_DEFAULT_EXPORT__') x.name = 'default'
         x.displayName = `{{id}}:${x.name || 'default'}`
         x.pos = pos
-        if (x.displayName === '__WEBPACK_DEFAULT_EXPORT__') x.displayName = 'default'
       }
     })
   }
